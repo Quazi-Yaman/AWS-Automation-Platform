@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AWS Automation Platform</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="page-header">
+
+        <div>
+            <h1>AWS Automation Platform</h1>
+
+            <p>
+                Automate AWS resources using Python, Boto3 and AWS CLI fallback.
+            </p>
+        </div>
+
+        <div
+            id="connectionStatus"
+            class="connection-status"
+        >
+            🔄 Checking backend...
+        </div>
+
+    </header>
+
+
+    <!-- CREATE RESOURCE -->
+    <section class="automation-section">
+
+        <div class="section-title">
+
+            <div>
+                <h2>Create AWS Resource</h2>
+
+                <p>
+                    Select an AWS service and perform an automated operation.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- SERVICE -->
+        <div class="form-group">
+
+            <label for="serviceSelect">
+                AWS Service
+            </label>
+
+            <select id="serviceSelect">
+
+                <option value="s3">
+                    Amazon S3
+                </option>
+
+                <option value="dynamodb">
+                    DynamoDB
+                </option>
+
+                <option value="lambda">
+                    AWS Lambda
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- OPERATION -->
+        <div class="form-group">
+
+            <label for="operationSelect">
+                Operation
+            </label>
+
+            <select id="operationSelect"></select>
+
+        </div>
+
+
+        <!-- S3 FORM -->
+        <div
+            id="s3Form"
+            class="resource-form"
+        >
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="bucketName">
+                        Bucket Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="bucketName"
+                        placeholder="example-yaman-automation-2026"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="bucketRegion">
+                        AWS Region
+                    </label>
+
+                    <select id="bucketRegion">
+
+                        <option value="ap-south-1">
+                            ap-south-1 (Mumbai)
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DYNAMODB FORM -->
+        <div
+            id="dynamodbForm"
+            class="resource-form hidden"
+        >
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="tableName">
+                        Table Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tableName"
+                        placeholder="MyAutomationTable"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="partitionKey">
+                        Partition Key
+                    </label>
+
+                    <input
+                        type="text"
+                        id="partitionKey"
+                        placeholder="id"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="keyType">
+                        Key Type
+                    </label>
+
+                    <select id="keyType">
+
+                        <option value="S">
+                            String
+                        </option>
+
+                        <option value="N">
+                            Number
+                        </option>
+
+                        <option value="B">
+                            Binary
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LAMBDA FORM -->
+        <div
+            id="lambdaForm"
+            class="resource-form hidden"
+        >
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="functionName">
+                        Function Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="functionName"
+                        placeholder="my-automation-function"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lambdaRuntime">
+                        Runtime
+                    </label>
+
+                    <select id="lambdaRuntime">
+
+                        <option value="python3.13">
+                            Python 3.13
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lambdaHandler">
+                        Handler
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lambdaHandler"
+                        value="lambda_function.lambda_handler"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lambdaRole">
+                        IAM Execution Role ARN
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lambdaRole"
+                        placeholder="arn:aws:iam::ACCOUNT:role/ROLE"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="lambdaCode">
+                    Lambda Code
+                </label>
+
+                <textarea
+                    id="lambdaCode"
+                    rows="10"
+                    placeholder="def lambda_handler(event, context):&#10;    return {'statusCode': 200}"
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <!-- CREATE BUTTON -->
+        <button
+            id="createResourceButton"
+            class="primary-button"
+            type="button"
+        >
+            Create Resource
+        </button>
+
+
+        <!-- RESULT -->
+        <div
+            id="automationResult"
+            class="automation-result info"
+        >
+            Ready for automation.
+        </div>
+
+    </section>
+
+
+    <!-- AWS STATUS -->
+    <section class="status-section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>AWS Service Status</h2>
+
+                <p>
+                    Current connectivity to AWS services.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="resource-grid">
+
+            <div class="resource-card">
+
+                <div class="resource-icon">
+                    🪣
+                </div>
+
+                <div>
+
+                    <h3>Amazon S3</h3>
+
+                    <p id="s3Status">
+                        Checking...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="resource-card">
+
+                <div class="resource-icon">
+                    🗄️
+                </div>
+
+                <div>
+
+                    <h3>DynamoDB</h3>
+
+                    <p id="dynamodbStatus">
+                        Checking...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="resource-card">
+
+                <div class="resource-icon">
+                    λ
+                </div>
+
+                <div>
+
+                    <h3>AWS Lambda</h3>
+
+                    <p id="lambdaStatus">
+                        Checking...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ACTIVITY LOG -->
+    <section class="activity-section">
+
+        <div class="activity-header">
+
+            <div>
+
+                <h2>Activity Log</h2>
+
+                <p>
+                    Recent automation activity
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                onclick="loadActivity()"
+            >
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div id="activityLog">
+            Loading activity...
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
