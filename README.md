@@ -5,6 +5,13 @@ A Python-based AWS Automation Platform that provides a simple web dashboard for 
 The project is designed to simplify AWS resource management through a single user-friendly interface instead of requiring users to perform every operation manually through the AWS Console.
 
 ---
+## ▶️ How to Run the Website
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Quazi-Yaman/AWS-Automation-Platform.git
+cd AWS-Automation-Platform
 
 ## Overview
 
